@@ -1,20 +1,21 @@
-ProgLangTranslator
-==================
+# 🧠 ProgLangTranslator
 
-ProgLangTranslator is an offline AI-powered programming language translator and self-repairing transpiler.
+**ProgLangTranslator** is an **offline AI-powered programming language translator** and self-repairing transpiler.
 
 It takes code in one language (for example Python or C++) and asks a local large language model (LLM) to:
-1. Translate it to a target language.
-2. Try to compile/run the translated code.
-3. If it fails, send the error log and the code back to the model.
-4. Get a fixed version of the code.
-5. Repeat until it compiles/runs.
 
-No OpenAI API is required. The pipeline runs locally using an open source code model (Qwen2.5-Coder).
+1. Translate it to a target language.  
+2. Try to compile/run the translated code.  
+3. If it fails, send the error log and the code back to the model.  
+4. Get a fixed version of the code.  
+5. Repeat until it compiles/runs successfully.  
 
+No OpenAI API is required. The pipeline runs **fully offline** using an open-source code model — **Qwen2.5-Coder**.
 
-Main Features
--------------
+---
+
+## 🚀 Main Features
+
 - Translate between languages, e.g.:
   - C++ → Python
   - Python → C++
@@ -23,48 +24,53 @@ Main Features
   - Compiler/runtime errors are fed back into the model.
   - The model returns a corrected version of the code.
 - Saves:
-  - final translated code,
-  - logs,
-  - run output
-  to disk.
+  - Final translated code
+  - Logs
+  - Run output  
+  — all to disk.
 - Fully offline:
-  - Uses Qwen/Qwen2.5-Coder-1.5B-Instruct locally via Hugging Face Transformers.
+  - Uses **Qwen/Qwen2.5-Coder-1.5B-Instruct** locally via Hugging Face Transformers.
   - No API key, no internet calls after first model download.
 
+---
 
-Project Layout
---------------
-main.py                CLI entry point. Parses args and saves outputs to disk.
-orchestrator.py        Orchestrates translation + run + repair loop.
-executor.py            Knows how to run/compile different target languages.
-prompts.py             Builds prompts for translate and fix.
-llm_client.py          Loads the local model (Qwen2.5-Coder) and generates code.
-utils.py               Helper utilities for error logs.
-examples/              Example input code you can try.
-outputs/               Generated files will be written here (translated code, logs, run output).
+## 📂 Project Layout
 
+| File | Purpose |
+|------|----------|
+| `main.py` | CLI entry point. Parses args and saves outputs to disk. |
+| `orchestrator.py` | Orchestrates translation + run + repair loop. |
+| `executor.py` | Knows how to run/compile different target languages. |
+| `prompts.py` | Builds prompts for translate and fix. |
+| `llm_client.py` | Loads the local model (Qwen2.5-Coder) and generates code. |
+| `utils.py` | Helper utilities for error logs. |
+| `examples/` | Example input code you can try. |
+| `outputs/` | Generated files will be written here (translated code, logs, run output). |
 
-Requirements
------------
+---
+
+## 🧰 Requirements
+
 You need:
-- Python 3.9+ (3.10+ recommended)
-- g++ (for C++ compilation)
-- venv (Python virtual environment)
-- Enough RAM / VRAM to run a ~1.5B parameter model (Qwen2.5-Coder-1.5B-Instruct).
-  - This model can usually run on CPU. It's slower, but works.
+- Python **3.9+** (3.10+ recommended)
+- `g++` (for C++ compilation)
+- `venv` (Python virtual environment)
+- Enough RAM / VRAM to run a ~1.5B parameter model (**Qwen2.5-Coder-1.5B-Instruct**)  
+  - This model can usually run on CPU (slower, but works)
 
-Python packages:
-- torch
-- transformers>=4.37.0
-- accelerate
-- safetensors
-- bitsandbytes   (optional; helps with GPU / low VRAM)
+### Python packages
 
-All of these are installed in the steps below.
+- `torch`
+- `transformers>=4.37.0`
+- `accelerate`
+- `safetensors`
+- `bitsandbytes` *(optional; helps with GPU / low VRAM)*
 
+All of these are installed in the setup steps below.
 
-Setup
------
+---
+
+## ⚙️ Setup
 
 1. Go to the project directory
    cd /path/to/ProgLangTranslator

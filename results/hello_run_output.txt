@@ -1,0 +1,5 @@
+STDOUT:
+Hello from C++!
+
+STDERR:
+

@@ -46,22 +46,28 @@ model = AutoModelForCausalLM.from_pretrained(
 
 def _strip_code_fences(text: str) -> str:
     """
-    If the model wraps code in ```...```, return just the inside.
-    Otherwise, return text as-is.
-    We also trim leading/trailing whitespace.
+    If the model wraps code in ```...``` or adds a stray language name
+    (like 'python' or 'cpp') at the top, return just the actual code.
     """
     fence = "```"
-    if fence not in text:
-        return text.strip()
+    if fence in text:
+        parts = text.split(fence)
+        # pick the last chunk that looks like code
+        for chunk in reversed(parts):
+            chunk_stripped = chunk.strip()
+            if "\n" in chunk_stripped or "def " in chunk_stripped or ";" in chunk_stripped:
+                text = chunk_stripped
+                break
+        else:
+            text = parts[-1]
 
-    parts = text.split(fence)
+    # Remove any leading language label like "python", "cpp", etc.
+    lines = text.strip().splitlines()
+    if lines and re.fullmatch(r"[A-Za-z0-9_+\-#]+", lines[0].strip().lower()):
+        # first line is just a language name
+        lines = lines[1:]
+    return "\n".join(lines).strip()
 
-    # Heuristic: choose the last chunk that looks like code
-    for chunk in reversed(parts):
-        chunk_stripped = chunk.strip()
-        if "\n" in chunk_stripped or "def " in chunk_stripped or ";" in chunk_stripped:
-            return chunk_stripped
-    return parts[-1].strip()
 
 
 def _generate_response(messages, max_new_tokens=512, temperature=0.0):

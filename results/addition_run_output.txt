@@ -1,0 +1,5 @@
+STDOUT:
+The sum of 5 and 7 is 12
+
+STDERR:
+

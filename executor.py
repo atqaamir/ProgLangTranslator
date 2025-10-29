@@ -4,6 +4,8 @@ import os
 import shutil
 
 
+
+
 def _run_subprocess(cmd_list, timeout=5, cwd=None):
     """
     Run a subprocess and capture stdout/stderr/exit code.
@@ -109,7 +111,7 @@ def run_cpp_just_compile(cpp_code: str):
 
         # compile
         stdout_c, stderr_c, exit_c = _run_subprocess(
-            ["g++", cpp_path, "-o", out_path],
+            ["g++", "-std=c++17", cpp_path, "-o", out_path],
             cwd=tmpdir,
         )
 

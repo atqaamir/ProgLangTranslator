@@ -1,4 +1,4 @@
-# 🧠 ProgLangTranslator
+# ProgLangTranslator
 
 **ProgLangTranslator** is an **offline AI-powered programming language translator** and self-repairing transpiler.
 
